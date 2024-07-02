@@ -1,0 +1,66 @@
+[gd_scene load_steps=9 format=3 uid="uid://bmurmegwgdo6b"]
+
+[ext_resource type="Script" path="res://Scenes/cultist.gd" id="1_37bg3"]
+[ext_resource type="Texture2D" uid="uid://v3xs0gq5tt68" path="res://Sprites/enemyplaceholder.png" id="1_hcxn4"]
+[ext_resource type="Script" path="res://Scripts/FiniteStateMachine.gd" id="2_1bn1b"]
+[ext_resource type="Script" path="res://Scripts/WanderState.gd" id="4_l8dhg"]
+[ext_resource type="Script" path="res://Scripts/ChaseState.gd" id="5_okaad"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wiy0j"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_hcxn4")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qtjsp"]
+size = Vector2(57, 107)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_txjaq"]
+radius = 400.196
+
+[node name="Cultist" type="CharacterBody2D" groups=["enemy"]]
+script = ExtResource("1_37bg3")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.3, 0.3)
+sprite_frames = SubResource("SpriteFrames_wiy0j")
+frame_progress = 0.48703
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["enemy"]]
+position = Vector2(-1.5, 9.5)
+shape = SubResource("RectangleShape2D_qtjsp")
+
+[node name="FiniteStateMachine" type="Node" parent="." node_paths=PackedStringArray("state")]
+script = ExtResource("2_1bn1b")
+state = NodePath("WanderState")
+
+[node name="WanderState" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("DetectionZone", "Actor", "Animator", "ChangeMov")]
+script = ExtResource("4_l8dhg")
+DetectionZone = NodePath("../../DetectionZone")
+Actor = NodePath("../..")
+Animator = NodePath("../../AnimatedSprite2D")
+ChangeMov = NodePath("../../WanderTimer")
+
+[node name="ChaseState" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("DetectionZone", "Actor", "Animator")]
+script = ExtResource("5_okaad")
+DetectionZone = NodePath("../../DetectionZone")
+Actor = NodePath("../..")
+Animator = NodePath("../../AnimatedSprite2D")
+
+[node name="DetectionZone" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionZone"]
+shape = SubResource("CircleShape2D_txjaq")
+
+[node name="WanderTimer" type="Timer" parent="."]
+wait_time = 3.0
+
+[connection signal="body_entered" from="DetectionZone" to="FiniteStateMachine/WanderState" method="_on_detection_zone_body_entered"]
+[connection signal="body_exited" from="DetectionZone" to="." method="_on_detection_zone_body_exited"]
+[connection signal="body_exited" from="DetectionZone" to="FiniteStateMachine/ChaseState" method="_on_detection_zone_body_exited"]
+[connection signal="timeout" from="WanderTimer" to="FiniteStateMachine/WanderState" method="_on_wander_timer_timeout"]

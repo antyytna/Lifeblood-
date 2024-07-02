@@ -224,10 +224,10 @@ _data = {
 "spin": SubResource("Animation_4sil8")
 }
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" groups=["player"]]
 script = ExtResource("1_4tb4g")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["player_hitbox"]]
 position = Vector2(-3.5, 10)
 shape = SubResource("RectangleShape2D_kjqay")
 
@@ -247,18 +247,25 @@ scale = Vector2(0.3, 0.3)
 texture = ExtResource("2_fokw7")
 hframes = 3
 
-[node name="AttackArea2D" type="Area2D" parent="Sprite2D"]
+[node name="AttackArea2D" type="Area2D" parent="Sprite2D" groups=["player_attack"]]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/AttackArea2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/AttackArea2D" groups=["player_attack"]]
 position = Vector2(176.667, 36.6667)
 shape = SubResource("RectangleShape2D_l71ll")
 
 [node name="BasicAttackTimer" type="Timer" parent="."]
+wait_time = 0.5
 one_shot = true
 
 [node name="SpinAttackTimer" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
+[node name="DashAttackTimer" type="Timer" parent="."]
+wait_time = 0.4
 one_shot = true
 
 [connection signal="ready" from="DashTimer" to="." method="_on_dash_timer_ready"]
 [connection signal="timeout" from="BasicAttackTimer" to="." method="_on_basic_attack_timer_timeout"]
 [connection signal="timeout" from="SpinAttackTimer" to="." method="_on_spin_attack_timer_timeout"]
+[connection signal="timeout" from="DashAttackTimer" to="." method="_on_dash_attack_timer_timeout"]
