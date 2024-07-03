@@ -19,3 +19,9 @@ func _physics_process(delta):
 		velocity.y += gravity * delta
 	
 	move_and_slide()
+
+
+
+func _on_hitbox_area_entered(area):
+	if area.is_in_group("player_attack"):
+		print("enemy hit")

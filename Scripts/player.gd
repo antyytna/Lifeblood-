@@ -18,7 +18,7 @@ var spin_attack
 var dash_attack
 var should_handle_endlag
 var direction
-
+var combo_basic = 0
 
 func _ready():
 	idle = true
@@ -104,6 +104,12 @@ func handle_endlag(direction):
 	if basic_attack == true:
 		velocity.x = 0
 		$BasicAttackTimer.start()
+		$BasicAttackComboTimer.start()
+		if combo_basic < 4 and $BasicAttackTimer.is_processing and $BasicAttackComboTimer.time_left == 0 and Input.is_action_just_pressed("attack"):
+			$AnimationPlayer.play("attack")
+			$BasicAttackTimer.start()
+			combo_basic += 1
+			
 	
 	if spin_attack == true:
 		velocity.x = 300 * direction
@@ -112,6 +118,7 @@ func handle_endlag(direction):
 	if dash_attack == true:
 		velocity.x = 600 * direction
 		$DashAttackTimer.start()
+			
 
 
 func _on_basic_attack_timer_timeout():
@@ -137,3 +144,8 @@ func get_gravity(velocity: Vector2):
 	
 	else:
 		return FALL_GRAVITY
+
+
+func _on_hitbox_body_entered(body):
+	if body.is_in_group("enemy"):
+		print("hit")

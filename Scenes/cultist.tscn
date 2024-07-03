@@ -60,7 +60,15 @@ shape = SubResource("CircleShape2D_txjaq")
 [node name="WanderTimer" type="Timer" parent="."]
 wait_time = 3.0
 
+[node name="Hitbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" groups=["enemy"]]
+position = Vector2(-1.5, 9.5)
+shape = SubResource("RectangleShape2D_qtjsp")
+
 [connection signal="body_entered" from="DetectionZone" to="FiniteStateMachine/WanderState" method="_on_detection_zone_body_entered"]
 [connection signal="body_exited" from="DetectionZone" to="." method="_on_detection_zone_body_exited"]
 [connection signal="body_exited" from="DetectionZone" to="FiniteStateMachine/ChaseState" method="_on_detection_zone_body_exited"]
 [connection signal="timeout" from="WanderTimer" to="FiniteStateMachine/WanderState" method="_on_wander_timer_timeout"]
+[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
+[connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]
