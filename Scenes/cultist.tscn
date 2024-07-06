@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://bmurmegwgdo6b"]
+[gd_scene load_steps=11 format=3 uid="uid://bmurmegwgdo6b"]
 
 [ext_resource type="Script" path="res://Scenes/cultist.gd" id="1_37bg3"]
 [ext_resource type="Texture2D" uid="uid://v3xs0gq5tt68" path="res://Sprites/enemyplaceholder.png" id="1_hcxn4"]
 [ext_resource type="Script" path="res://Scripts/FiniteStateMachine.gd" id="2_1bn1b"]
 [ext_resource type="Script" path="res://Scripts/WanderState.gd" id="4_l8dhg"]
 [ext_resource type="Script" path="res://Scripts/ChaseState.gd" id="5_okaad"]
+[ext_resource type="Script" path="res://Scripts/AttackState.gd" id="6_47kvm"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_wiy0j"]
 animations = [{
@@ -16,6 +17,9 @@ animations = [{
 "name": &"default",
 "speed": 5.0
 }]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ht6aw"]
+size = Vector2(306.667, 183.333)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qtjsp"]
 size = Vector2(57, 107)
@@ -30,6 +34,12 @@ script = ExtResource("1_37bg3")
 scale = Vector2(0.3, 0.3)
 sprite_frames = SubResource("SpriteFrames_wiy0j")
 frame_progress = 0.48703
+
+[node name="AttackArea" type="Area2D" parent="AnimatedSprite2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/AttackArea"]
+position = Vector2(210, 118.333)
+shape = SubResource("RectangleShape2D_ht6aw")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["enemy"]]
 position = Vector2(-1.5, 9.5)
@@ -46,11 +56,16 @@ Actor = NodePath("../..")
 Animator = NodePath("../../AnimatedSprite2D")
 ChangeMov = NodePath("../../WanderTimer")
 
-[node name="ChaseState" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("DetectionZone", "Actor", "Animator")]
+[node name="ChaseState" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("DetectionZone", "Actor", "Animator", "AttackTimer", "AttackArea")]
 script = ExtResource("5_okaad")
 DetectionZone = NodePath("../../DetectionZone")
 Actor = NodePath("../..")
 Animator = NodePath("../../AnimatedSprite2D")
+AttackTimer = NodePath("../../AttackTimer")
+AttackArea = NodePath("../../AnimatedSprite2D/AttackArea")
+
+[node name="AttackState" type="Node" parent="FiniteStateMachine"]
+script = ExtResource("6_47kvm")
 
 [node name="DetectionZone" type="Area2D" parent="."]
 
@@ -66,6 +81,11 @@ wait_time = 3.0
 position = Vector2(-1.5, 9.5)
 shape = SubResource("RectangleShape2D_qtjsp")
 
+[node name="AttackTimer" type="Timer" parent="."]
+wait_time = 0.75
+one_shot = true
+
+[connection signal="body_entered" from="AnimatedSprite2D/AttackArea" to="FiniteStateMachine/ChaseState" method="_on_attack_area_body_entered"]
 [connection signal="body_entered" from="DetectionZone" to="FiniteStateMachine/WanderState" method="_on_detection_zone_body_entered"]
 [connection signal="body_exited" from="DetectionZone" to="." method="_on_detection_zone_body_exited"]
 [connection signal="body_exited" from="DetectionZone" to="FiniteStateMachine/ChaseState" method="_on_detection_zone_body_exited"]

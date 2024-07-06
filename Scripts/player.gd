@@ -31,9 +31,9 @@ func _physics_process(delta):
 		velocity.y = JUMP_VELOCITY / 4
 	
 	if velocity.x < 0:
-		$Sprite2D.flip_h = true
+		$Sprite2D.scale = Vector2(-0.3, 0.3)
 	elif velocity.x > 0:
-		$Sprite2D.flip_h = false
+		$Sprite2D.scale = Vector2(0.3, 0.3)
 	
 	if idle or walking == true:
 		$AnimationPlayer.play("default")
@@ -149,3 +149,9 @@ func get_gravity(velocity: Vector2):
 func _on_hitbox_body_entered(body):
 	if body.is_in_group("enemy"):
 		print("hit")
+
+func FrameFreeze(timeScale, duration):
+	Engine.time_scale = timeScale
+	await get_tree().create_timer(duration * timeScale).timeout
+	Engine.time_scale = 1.0
+	

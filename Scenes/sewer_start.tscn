@@ -1,0 +1,254 @@
+[gd_scene load_steps=9 format=3 uid="uid://q71t0h5tc2wo"]
+
+[ext_resource type="PackedScene" uid="uid://bcf5ku1ypjb1p" path="res://Scenes/player.tscn" id="1_oynuk"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_46i51"]
+specular_color = Color(0.764706, 0.207843, 0.729412, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_f71bu"]
+font_size = 300
+
+[sub_resource type="LabelSettings" id="LabelSettings_fe6wj"]
+line_spacing = 1.0
+font_size = 300
+
+[sub_resource type="LabelSettings" id="LabelSettings_gyqdi"]
+font_size = 200
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_3va0h"]
+font_size = 400
+
+[sub_resource type="LabelSettings" id="LabelSettings_3e2lm"]
+font_size = 200
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_36ric"]
+
+[node name="sewer_start" type="Node2D"]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_left = -2214.0
+offset_top = -444.0
+offset_right = -13.0
+offset_bottom = -207.0
+texture = SubResource("CanvasTexture_46i51")
+
+[node name="TextureRect2" type="TextureRect" parent="."]
+offset_left = 204.0
+offset_top = -440.0
+offset_right = 3439.0
+offset_bottom = -207.0
+texture = SubResource("CanvasTexture_46i51")
+
+[node name="TextureRect3" type="TextureRect" parent="."]
+offset_left = -2348.0
+offset_top = 114.0
+offset_right = 663.0
+offset_bottom = 438.0
+texture = SubResource("CanvasTexture_46i51")
+
+[node name="TextureRect3" type="TextureRect" parent="TextureRect3"]
+layout_mode = 0
+offset_left = -2348.0
+offset_top = 114.0
+offset_right = 663.0
+offset_bottom = 438.0
+texture = SubResource("CanvasTexture_46i51")
+
+[node name="Player" parent="." instance=ExtResource("1_oynuk")]
+position = Vector2(94, 45)
+
+[node name="TextureRect4" type="TextureRect" parent="."]
+offset_left = -4286.0
+offset_top = -1099.0
+offset_right = -2085.0
+offset_bottom = -862.0
+rotation = 0.200713
+texture = SubResource("CanvasTexture_46i51")
+
+[node name="TextureRect5" type="TextureRect" parent="."]
+offset_left = -8241.0
+offset_top = 112.0
+offset_right = -2348.0
+offset_bottom = 427.0
+texture = SubResource("CanvasTexture_46i51")
+
+[node name="TextureRect6" type="TextureRect" parent="."]
+offset_left = -6520.0
+offset_top = -699.0
+offset_right = -4319.0
+offset_bottom = -462.0
+rotation = -0.181514
+texture = SubResource("CanvasTexture_46i51")
+
+[node name="TextureRect7" type="TextureRect" parent="."]
+offset_left = -8208.0
+offset_top = -1787.0
+offset_right = -6007.0
+offset_bottom = -1550.0
+rotation = 1.5708
+texture = SubResource("CanvasTexture_46i51")
+
+[node name="TextureRect8" type="TextureRect" parent="."]
+offset_left = -6950.0
+offset_top = -959.0
+offset_right = -5864.0
+offset_bottom = -722.0
+rotation = 1.5708
+texture = SubResource("CanvasTexture_46i51")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -8139.0
+offset_top = -1187.0
+offset_right = -5845.0
+offset_bottom = 155.0
+text = "
+
+item        pogo"
+label_settings = SubResource("LabelSettings_f71bu")
+
+[node name="TextureRect9" type="TextureRect" parent="."]
+offset_left = -8212.0
+offset_top = -1665.0
+offset_right = -6011.0
+offset_bottom = -1428.0
+texture = SubResource("CanvasTexture_46i51")
+
+[node name="TextureRect10" type="TextureRect" parent="."]
+offset_left = -6227.0
+offset_top = -1527.0
+offset_right = -5406.0
+offset_bottom = -1290.0
+rotation = 1.5708
+texture = SubResource("CanvasTexture_46i51")
+
+[node name="TextureRect11" type="TextureRect" parent="."]
+modulate = Color(0.682353, 0.972549, 1, 1)
+offset_left = -5342.0
+offset_top = -181.0
+offset_right = -3141.0
+offset_bottom = 56.0
+texture = SubResource("CanvasTexture_46i51")
+
+[node name="Label2" type="Label" parent="."]
+offset_left = -5356.0
+offset_top = -308.0
+offset_right = -3796.0
+offset_bottom = -10.0
+text = "table + cutscene"
+label_settings = SubResource("LabelSettings_fe6wj")
+
+[node name="TextureRect12" type="TextureRect" parent="."]
+offset_left = 629.0
+offset_top = 266.0
+offset_right = 4575.0
+offset_bottom = 584.0
+texture = SubResource("CanvasTexture_46i51")
+
+[node name="TextureRect13" type="TextureRect" parent="."]
+offset_left = 5589.0
+offset_top = 267.0
+offset_right = 8502.0
+offset_bottom = 591.0
+texture = SubResource("CanvasTexture_46i51")
+
+[node name="TextureRect14" type="TextureRect" parent="."]
+offset_left = 3907.0
+offset_top = -1069.0
+offset_right = 4622.0
+offset_bottom = -836.0
+rotation = 0.785398
+texture = SubResource("CanvasTexture_46i51")
+
+[node name="TextureRect15" type="TextureRect" parent="."]
+modulate = Color(0.0901961, 1, 1, 1)
+offset_left = 8732.0
+offset_top = -803.0
+offset_right = 10180.0
+offset_bottom = -570.0
+rotation = 1.5708
+texture = SubResource("CanvasTexture_46i51")
+
+[node name="TextureRect16" type="TextureRect" parent="."]
+offset_left = 3060.0
+offset_top = -583.0
+offset_right = 3866.0
+offset_bottom = -350.0
+rotation = -0.785398
+texture = SubResource("CanvasTexture_46i51")
+
+[node name="TextureRect17" type="TextureRect" parent="."]
+offset_left = 4283.0
+offset_top = -554.0
+offset_right = 8480.0
+offset_bottom = -321.0
+texture = SubResource("CanvasTexture_46i51")
+
+[node name="Label3" type="Label" parent="."]
+offset_left = 3189.0
+offset_top = -832.0
+offset_right = 4653.0
+offset_bottom = -283.0
+text = "optional npc
+if you pogo up"
+label_settings = SubResource("LabelSettings_gyqdi")
+
+[node name="Label4" type="Label" parent="."]
+offset_left = 8608.0
+offset_top = -469.0
+offset_right = 10143.0
+offset_bottom = 98.0
+text = "goal
+cleared by valves in boss arena"
+label_settings = SubResource("LabelSettings_3va0h")
+
+[node name="Label5" type="Label" parent="."]
+offset_left = 907.0
+offset_top = -481.0
+offset_right = 2367.0
+offset_bottom = 344.0
+text = "guard here
+cant fight until 
+after cutscene"
+label_settings = SubResource("LabelSettings_3e2lm")
+
+[node name="TextureRect18" type="TextureRect" parent="."]
+modulate = Color(1, 0.25098, 1, 1)
+offset_left = 4066.0
+offset_top = 545.0
+offset_right = 6394.0
+offset_bottom = 975.0
+texture = SubResource("CanvasTexture_36ric")
+
+[node name="Label6" type="Label" parent="."]
+offset_left = 4349.0
+offset_top = 672.0
+offset_right = 6201.0
+offset_bottom = 1497.0
+text = "screen transition
+above is breakable
+thing to drop down"
+label_settings = SubResource("LabelSettings_gyqdi")
+
+[node name="Label6" type="Label" parent="Label6"]
+layout_mode = 0
+offset_left = 4062.0
+offset_top = 304.0
+offset_right = 5914.0
+offset_bottom = 1681.0
+text = "path back up from 
+boss
+we will cheat the 
+actual relativity of
+the areas"
+label_settings = SubResource("LabelSettings_gyqdi")
+
+[node name="TextureRect19" type="TextureRect" parent="."]
+modulate = Color(0.341176, 1, 1, 1)
+offset_left = 7073.0
+offset_top = 626.0
+offset_right = 9290.0
+offset_bottom = 863.0
+rotation = 0.872665
+texture = SubResource("CanvasTexture_46i51")
