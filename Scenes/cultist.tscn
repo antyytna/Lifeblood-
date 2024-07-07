@@ -1,22 +1,12 @@
 [gd_scene load_steps=11 format=3 uid="uid://bmurmegwgdo6b"]
 
 [ext_resource type="Script" path="res://Scenes/cultist.gd" id="1_37bg3"]
-[ext_resource type="Texture2D" uid="uid://v3xs0gq5tt68" path="res://Sprites/enemyplaceholder.png" id="1_hcxn4"]
 [ext_resource type="Script" path="res://Scripts/FiniteStateMachine.gd" id="2_1bn1b"]
+[ext_resource type="Texture2D" uid="uid://cfapvpie5bmjm" path="res://Sprites/enemyprototype.png" id="2_86kew"]
 [ext_resource type="Script" path="res://Scripts/WanderState.gd" id="4_l8dhg"]
 [ext_resource type="Script" path="res://Scripts/ChaseState.gd" id="5_okaad"]
 [ext_resource type="Script" path="res://Scripts/AttackState.gd" id="6_47kvm"]
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_wiy0j"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("1_hcxn4")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}]
+[ext_resource type="Script" path="res://Scripts/HurtState.gd" id="7_0iecb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ht6aw"]
 size = Vector2(306.667, 183.333)
@@ -30,14 +20,14 @@ radius = 400.196
 [node name="Cultist" type="CharacterBody2D" groups=["enemy"]]
 script = ExtResource("1_37bg3")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, 10)
+texture = ExtResource("2_86kew")
+
+[node name="AttackArea" type="Area2D" parent="Sprite2D"]
 scale = Vector2(0.3, 0.3)
-sprite_frames = SubResource("SpriteFrames_wiy0j")
-frame_progress = 0.48703
 
-[node name="AttackArea" type="Area2D" parent="AnimatedSprite2D"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/AttackArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/AttackArea"]
 position = Vector2(210, 118.333)
 shape = SubResource("RectangleShape2D_ht6aw")
 
@@ -49,28 +39,26 @@ shape = SubResource("RectangleShape2D_qtjsp")
 script = ExtResource("2_1bn1b")
 state = NodePath("WanderState")
 
-[node name="WanderState" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("DetectionZone", "Actor", "Animator", "ChangeMov")]
+[node name="WanderState" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("DetectionZone", "Actor", "ChangeMov")]
 script = ExtResource("4_l8dhg")
 DetectionZone = NodePath("../../DetectionZone")
 Actor = NodePath("../..")
-Animator = NodePath("../../AnimatedSprite2D")
 ChangeMov = NodePath("../../WanderTimer")
 
-[node name="ChaseState" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("DetectionZone", "Actor", "Animator", "AttackTimer", "AttackArea")]
+[node name="ChaseState" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("DetectionZone", "Actor", "AttackTimer", "AttackArea")]
 script = ExtResource("5_okaad")
 DetectionZone = NodePath("../../DetectionZone")
 Actor = NodePath("../..")
-Animator = NodePath("../../AnimatedSprite2D")
 AttackTimer = NodePath("../../AttackTimer")
-AttackArea = NodePath("../../AnimatedSprite2D/AttackArea")
+AttackArea = NodePath("../../Sprite2D/AttackArea")
 
 [node name="AttackState" type="Node" parent="FiniteStateMachine"]
 script = ExtResource("6_47kvm")
 
-[node name="DetectionZone" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionZone"]
-shape = SubResource("CircleShape2D_txjaq")
+[node name="HurtState" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("Actor", "HurtTimer")]
+script = ExtResource("7_0iecb")
+Actor = NodePath("../..")
+HurtTimer = NodePath("../../HurtTimer")
 
 [node name="WanderTimer" type="Timer" parent="."]
 wait_time = 3.0
@@ -85,10 +73,24 @@ shape = SubResource("RectangleShape2D_qtjsp")
 wait_time = 0.75
 one_shot = true
 
-[connection signal="body_entered" from="AnimatedSprite2D/AttackArea" to="FiniteStateMachine/ChaseState" method="_on_attack_area_body_entered"]
+[node name="DetectionZone" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionZone"]
+shape = SubResource("CircleShape2D_txjaq")
+debug_color = Color(0.878431, 0, 0.827451, 0.419608)
+
+[node name="HurtTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[connection signal="body_entered" from="Sprite2D/AttackArea" to="FiniteStateMachine/ChaseState" method="_on_attack_area_body_entered"]
+[connection signal="timeout" from="WanderTimer" to="FiniteStateMachine/WanderState" method="_on_wander_timer_timeout"]
+[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
+[connection signal="area_entered" from="Hitbox" to="FiniteStateMachine/ChaseState" method="_on_hitbox_area_entered"]
+[connection signal="area_entered" from="Hitbox" to="FiniteStateMachine/HurtState" method="_on_hitbox_area_entered"]
+[connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]
+[connection signal="body_entered" from="Hitbox" to="FiniteStateMachine/HurtState" method="_on_hitbox_body_entered"]
 [connection signal="body_entered" from="DetectionZone" to="FiniteStateMachine/WanderState" method="_on_detection_zone_body_entered"]
 [connection signal="body_exited" from="DetectionZone" to="." method="_on_detection_zone_body_exited"]
 [connection signal="body_exited" from="DetectionZone" to="FiniteStateMachine/ChaseState" method="_on_detection_zone_body_exited"]
-[connection signal="timeout" from="WanderTimer" to="FiniteStateMachine/WanderState" method="_on_wander_timer_timeout"]
-[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
-[connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]
+[connection signal="timeout" from="HurtTimer" to="FiniteStateMachine/HurtState" method="_on_hurt_timer_timeout"]

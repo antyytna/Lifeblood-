@@ -7,6 +7,7 @@ extends State
 @export var AttackArea: Area2D
 signal lost_player
 signal in_range
+signal hurt
 var player_range
 
 func _ready():
@@ -38,3 +39,8 @@ func _on_detection_zone_body_exited(body):
 func _on_attack_area_body_entered(body):
 	if body.is_in_group("player"):
 		player_range = true
+
+
+func _on_hitbox_area_entered(area):
+	if area.is_in_group("player_attack"):
+		hurt.emit()

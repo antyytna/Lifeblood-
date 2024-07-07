@@ -155,3 +155,10 @@ func FrameFreeze(timeScale, duration):
 	await get_tree().create_timer(duration * timeScale).timeout
 	Engine.time_scale = 1.0
 	
+
+
+func _on_hitbox_area_entered(area):
+	if area.name == "ValveArea":
+		print("valve")
+		if spin_attack == true:
+			print("true")

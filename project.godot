@@ -19,10 +19,6 @@ config/icon="res://Sprites/icon.svg"
 
 Autoloads="*res://Scripts/autoloads.gd"
 
-[editor_plugins]
-
-enabled=PackedStringArray("res://addons/AS2P/plugin.cfg")
-
 [input]
 
 sprint={

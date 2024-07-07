@@ -1,0 +1,38 @@
+[gd_scene load_steps=5 format=3 uid="uid://ckpf8wmupymie"]
+
+[ext_resource type="Texture2D" uid="uid://c8axm56o2s842" path="res://Sprites/2024-07-06b_concept-blurs.png" id="1_0l571"]
+[ext_resource type="Texture2D" uid="uid://chtdysbatir12" path="res://Sprites/2024-07-06_hood-sprite-alpha-2-noscythe-x4.png" id="2_emqlk"]
+
+[sub_resource type="Environment" id="Environment_d7t3y"]
+background_mode = 3
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_ducmr"]
+dof_blur_far_enabled = true
+dof_blur_far_distance = 11.35
+dof_blur_near_enabled = true
+dof_blur_near_distance = 2.45
+dof_blur_amount = 1.0
+
+[node name="mockup" type="Node2D"]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_left = -1564.0
+offset_top = -159.0
+offset_right = 4235.0
+offset_bottom = 2233.0
+texture = ExtResource("1_0l571")
+stretch_mode = 1
+
+[node name="TextureRect2" type="TextureRect" parent="."]
+offset_left = 146.0
+offset_top = 1299.0
+offset_right = 301.0
+offset_bottom = 1520.0
+texture = ExtResource("2_emqlk")
+
+[node name="Camera2D" type="Camera2D" parent="TextureRect2"]
+zoom = Vector2(0.3, 0.3)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_d7t3y")
+camera_attributes = SubResource("CameraAttributesPractical_ducmr")

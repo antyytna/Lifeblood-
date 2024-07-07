@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://dfpj2uidioe3h"]
+
+[ext_resource type="Texture2D" uid="uid://mgbbwfoliy34" path="res://Sprites/71IBgqMqQ+S.jpg" id="1_65rhv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7bgo1"]
+size = Vector2(2920, 2760)
+
+[node name="Valve" type="Sprite2D"]
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("1_65rhv")
+
+[node name="ValveArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ValveArea"]
+position = Vector2(-20, 20)
+scale = Vector2(1, 1)
+shape = SubResource("RectangleShape2D_7bgo1")
